@@ -1,0 +1,225 @@
+/** @format */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #305a5a !important;
+  }
+  
+  .login-container {
+    position: absolute;
+    border: 1px solid white;
+    top: 13%;
+    left: 13%;
+    width: 75%;
+    height: 75%;
+    display: flex;
+  
+    /* A gradient from 0% to 100% with the specified colors */
+    background: linear-gradient(90deg, #3c5e5e, #98ada1);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+  
+    border-top-right-radius: 33px;
+    border-top-left-radius: 33px;
+  
+    border-bottom-left-radius: 33px;
+  
+    border-bottom-right-radius: 33px;
+    align-items: center;
+  }
+  
+  .left-half {
+    width: 50%;
+    height: 100%;
+    border-top-left-radius: 33px;
+    border-bottom-left-radius: 33px;
+  }
+  
+  .right-half {
+    width: 50%;
+    height: 100%;
+    border-top-right-radius: 33px;
+    border-bottom-right-radius: 33px;
+    border-left: 1px solid white;
+  }
+  
+  .col-8s {
+    width: 100%;
+    text-align: center;
+    padding-right: 50px;
+    align-items: center;
+    padding-bottom: 10px;
+  }
+  
+  .col-8 {
+    width: 50%;
+    flex: 1;
+  }
+  .logo {
+    padding-top: 90px;
+    padding-right: 1px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    width: 100%;
+    align-items: center;
+    /* transform: translateX(-10px); */
+  }
+  
+  .col-4 {
+    padding: 10px;
+    padding-top: 0px;
+    align-items: center;
+    padding-right: 10px;
+    justify-content: flex-end;
+    /* position: relative; */
+  }
+  
+  .mb-1 a {
+    color: white;
+    width: 100%;
+    text-decoration: underline;
+  }
+  
+  h1 {
+    padding-top: 42%;
+    /* padding-right: 5%; */
+  }
+  
+  h2 {
+    font-weight: 300;
+    text-align: center;
+  }
+  
+  p {
+    position: relative;
+  }
+  
+  .login-form {
+    /* width: 350px; */
+    /* height: 536px; */
+    margin: 0 auto;
+    padding: 10px;
+    width: 100%;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    /* background-color: blue; */
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .input-group.mb-3 {
+    text-align: center;
+    padding-top: 10px;
+    width: 100%;
+    padding-left: 110px;
+    padding-right: 110px;
+  }
+  
+  .logintopic {
+    text-align: center;
+    /* background-color: pink; */
+    padding-top: 13%;
+    padding-bottom: 5%;
+    padding-left: 10px;
+    width: 100%;
+    /* color: #fed985; */
+    color: rgb(255, 255, 255);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    /* background-color: red; */
+    /* padding-top: 40px; */
+    height: 255px;
+    align-items: center;
+  }
+  
+  .row {
+    width: 100%;
+    padding-right: 100px;
+    padding-top: 10px;
+    color: #ffffff;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+  }
+  
+  .icheck-primary {
+    padding: 10px;
+    display: inline-block;
+  }
+  
+  input[type="checkbox"] {
+    vertical-align: middle; /* Aligns checkbox with the text */
+  }
+  
+  /* label {
+    margin-bottom: 0;
+  }
+  
+  p.mb-1 {
+    margin-bottom: 0;
+  } */
+  
+  input[type="email"],
+  input[type="password"] {
+    padding: 10px;
+    /* margin-bottom: 1px; */
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 11px;
+    background-color: #ffffff;
+  }
+  
+  button[type="submit"] {
+    position: absolute;
+    right: 0;
+    background-color: #4f4747;
+    color: rgb(255, 255, 255);
+    padding: 13px;
+    border: 3px solid white;
+    width: 50%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-right: -110px;
+  }
+  
+  a {
+    text-decoration: none;
+    padding-left: 44%;
+    padding-bottom: 8%;
+    /* background-color: black; */
+  }
+  
+  #forgot-pass {
+    text-align: center;
+    margin-top: 1px;
+    margin-bottom: 20px;
+    width: 69%;
+  }
+  
+  #forgot-pass a {
+    color: rgb(255, 255, 255);
+    text-align:left;
+  }
+  
+  .btn.btn-success.btn-block {
+    align-items: center;
+  }
+  
+  .g-recaptcha {
+    transform: scale(0.78); /* Adjust the scale to make the reCAPTCHA larger */
+    transform-origin: 0 0; /* Ensures the reCAPTCHA widget scales from the top-left corner */
+  }
+  

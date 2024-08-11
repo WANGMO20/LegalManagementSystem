@@ -1,0 +1,340 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                  <div class="inner">
+                      <h3>{{total_students}}</h3>
+                      <p>Total Clients</p>
+                  </div>
+                  <div class="icon">
+                      <i class="nav-icon fas fa-user-graduate"></i>
+                  </div>
+              </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-4 col-md-4 col-sm-12">
+              <!-- small box -->
+              <div class="small-box bg-maroon">
+                  <div class="inner">
+                      <h3>{{total_leave}}</h3>
+                      <p>Total Application</p>
+                  </div>
+                  <div class="icon">
+                      <i class="nav-icon fas fa-sign-out-alt"></i>
+                  </div>
+              </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-4 col-md-4 col-sm-12">
+              <!-- small box -->
+              <div class="small-box bg-danger">
+                  <div class="inner">
+                      <h3>{{total_subject}}</h3>
+                      <p>Total Cases</p>
+                  </div>
+                  <div class="icon">
+                      <i class="nav-icon fas fa-book"></i>
+                  </div>
+              </div>
+          </div>
+          <!-- ./col -->
+      </div>
+      
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="card card-dark">
+                  <div class="card-header">
+                      <h3 class="card-title">{{page_title}}</h3>
+                  </div>
+
+                  <div class="table-responsive card-body"> <!-- Added .table-responsive to ensure the table fits within the card -->
+                      <table class="table table-bordered table-hover">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Client</th>
+                                  <th>Service Type</th>
+                                  <th>Reason</th>
+                                  <!-- <th>Date</th> -->
+                                  <th>Current Date</th>
+                                  <th>Name</th>
+                                  <th>Gender</th>
+                                  <th>Occupation</th>
+                                  <th>DOB</th>
+                                  <th>Present Address</th>
+                                  <th>Permanent Address</th>
+                                  <th>Contact No</th>
+                                  <th>Email Address</th>
+                                  <th>Dealing Official</th>
+                                  <th>Dealing Official Contact</th>
+                                  <th>Institution Name</th>
+                                  <th>Total Household Income</th>
+                                  <th>Update</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for leave in allLeave %}
+                              <tr>
+                                  <td>{{forloop.counter}}</td>
+                                  <td>{{leave.student}}</td>
+                                  <td>{{leave.student.course}}</td>
+                                  <td>{{leave.message}}</td>
+                                  <!-- <td>{{leave.date}}</td> -->
+                                  <td>{{leave.created_at}}</td>
+                                 
+                                  {% if leave.status == 0 %}
+                                      <td><button data-toggle="modal" data-target="#reply_modal" value="{{leave.id}}" class="btn btn-success reply_open_modal">Reply</button></td>
+                                  {% elif leave.status == -1 %}
+                                      <td><span class='badge badge-danger'>Rejected</span></td>
+                                  {% else %}
+                                      <td><span class='badge badge-success'>Approved</span></td>
+                                      <td>{{feedback.updated_at}}</td>
+                                  {% endif %}
+                              </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+              <!-- /.card -->
+          </div>
+      </div>
+  </div>
+</section>
+
+<div class="modal fade" id="reply_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel"></h4>
+          </div>
+          <div class="modal-body">
+              <input type="hidden" id="id">
+              <p>Reply To <span id="reply_name"></span>'s Leave Request</p>
+              <select id="reply_leave_status" class="form-control">
+                  <option value="">-- Select --</option>
+                  <option value="1">Approve</option>
+                  <option value="-1">Reject</option>
+              </select>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button id="reply_btn" class="btn btn-success btn-block">Submit</button>
+          </div>
+      </div>
+        
+      <script>
+        $(document).ready(function(){
+            $(".reply_open_modal").click(function(){
+                var id = $(this).val()
+                var name = $(this).parents("tr").children("td:eq(1)").text()
+                $("#reply_name").text(name)
+                $("#id").val(id)
+            });
+            
+            $("#reply_btn").on("click", function(){
+                var id = $("#id").val()
+                var status = $("#reply_leave_status").val()
+                if (status == '1' || status == '-1'){
+                    $.ajax({
+                        url: "{% url 'view_student_leave' %}",
+                        type: 'POST',
+                        data: {
+                            id: id,
+                            status: status
+                        }
+                    }).done(function(response){
+                        if (response == "True"){
+                            alert("Leave Response Has Been Saved!")
+                            location.reload()
+                        } else {
+                            alert("Reply Could Not Be Sent")
+                        }
+                    }).fail(function(response){
+                        alert("Error Occurred.")
+                    })
+                } else {
+                    alert("Choose a valid response")
+                }
+            });
+        });
+    </script>
+
+
+
+        <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+  <script>
+      $(document).ready(function(){
+        var donutData        = {
+            labels: ['Attendance', 'Leave'],
+            datasets: [
+              {
+                data:[{{total_attendance}}, {{total_leave}}],
+                backgroundColor : ['#00a65a', '#f39c12',],
+              }
+            ]
+          }
+        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+        var pieData        = donutData;
+        var pieOptions     = {
+          maintainAspectRatio : false,
+          responsive : true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        var pieChart = new Chart(pieChartCanvas, {
+          type: 'pie',
+          data: pieData,
+          options: pieOptions      
+        });
+
+        var subject_list = {{ subject_list|safe|escape }};
+        var attendance_list = {{ attendance_list }};
+  
+            var barChartData = {
+      labels  : subject_list,
+      datasets: [
+      {
+        label               : 'Attendance Per Subject',
+        backgroundColor     : '#17A2B8',
+        borderColor         : 'rgba(60,141,188,0.8)',
+        pointRadius          : false,
+        pointColor          : '#3b8bba',
+        pointStrokeColor    : 'rgba(60,141,188,1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(60,141,188,1)',
+        data                : attendance_list
+      }, 
+      
+      ]
+    }
+        var barChartCanvas = $('#barChart').get(0).getContext('2d')
+        var temp0 = barChartData.datasets[0]
+        //var temp1 = areaChartData.datasets[1]
+        barChartData.datasets[0] = temp0
+       // barChartData.datasets[1] = temp0
+    
+    var stackedBarChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      scales: {
+        xAxes: [{
+          stacked: true,
+        }],
+        yAxes: [{
+          stacked: true
+        }]
+      }
+    }
+    
+        var barChart = new Chart(barChartCanvas, {
+          type: 'bar', 
+          data: barChartData,
+          options: stackedBarChartOptions
+        })
+      })
+
+    
+  </script>
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+      <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-analytics.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-messaging.js"></script>
+  
+  
+      <script>
+          // Your web app's Firebase configuration
+          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+          var firebaseConfig = {
+              apiKey: "AIzaSyBarDWWHTfTMSrtc5Lj3Cdw5dEvjAkFwtM",
+              authDomain: "sms-with-django.firebaseapp.com",
+              databaseURL: "https://sms-with-django.firebaseio.com",
+              projectId: "sms-with-django",
+              storageBucket: "sms-with-django.appspot.com",
+              messagingSenderId: "945324593139",
+              appId: "1:945324593139:web:03fa99a8854bbd38420c86",
+              measurementId: "G-2F2RXTL9GT"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig)
+          const messaging = firebase.messaging();
+          function InitializeFireBaseMessaging() {
+              messaging
+                  .requestPermission()
+                  .then(function () {
+                      console.log("Notification Permission");
+                      return messaging.getToken();
+                  })
+                  .then(function (token) {
+                      console.log("Token : " + token);
+                      sendToServer(token);
+                  })
+                  .catch(function (reason) {
+                      console.log(reason)
+                  })
+          }
+          messaging.onMessage(function (payload) {
+              const notificationOption = {
+                  body: payload.notification.body,
+                  icon: payload.notification.icon,
+  
+              }
+              if (Notification.permission == 'granted') {
+                  var notification = new Notification(payload.notification.title, notificationOption);
+                  notification.onclick = function (event) {
+                      event.preventDefault();
+                      window.open(payload.notification.click_action, "_blank");
+                      notification.close();
+                  }
+              }
+              console.log(payload);
+          });
+          messaging.onTokenRefresh(function () {
+              messaging.getToken()
+                  .then(function (newToken) {
+                      console.log("New Token : " + newToken);
+                      sendToServer(newToken);
+
+                  })
+                  .catch(function (reason) {
+                      console.log(reason)
+                  })
+          })
+  
+          function sendToServer(token){
+            $.ajax({
+              url: "{% url 'staff_fcmtoken' %}",
+              type: 'POST',
+              data: {
+                  token: token,
+              }
+          }).done(function (response) {
+   
+             
+          }).fail(function (response) {
+          })
+
+          }
+          
+          InitializeFireBaseMessaging();
+      </script>
+{% endblock custom_js %}
